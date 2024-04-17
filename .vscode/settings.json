@@ -5,15 +5,6 @@
     "python.testing.unittestEnabled": false, // ms-python.python
     "python.testing.pytestEnabled": true,
     "python.testing.pytestArgs": [], // -x to bail
-    "python.linting.flake8Enabled": true,
-    "python.linting.mypyEnabled": true,
-    "python.linting.pylintArgs": [
-        "--load-plugins=pylint_django",
-        "--errors-only"
-    ],
-    "python.formatting.autopep8Args": [
-        "--indent-size=4"
-    ],
     "python.defaultInterpreterPath": "venv/bin/python",
     "[python]": {
         "editor.defaultFormatter": "ms-python.autopep8", // ms-python.python
@@ -24,7 +15,6 @@
         "editor.rulers": [
             79
         ],
-        "python.sortImports.enabled": true
     },
     "[html]": {
         "editor.formatOnSave": true,
