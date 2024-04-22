@@ -1,6 +1,7 @@
-from .test_recipe_base import RecipeTestBase, Recipe
 from django.core.exceptions import ValidationError
 from parameterized import parameterized
+
+from .test_recipe_base import Recipe, RecipeTestBase
 
 
 class RecipeModelTest(RecipeTestBase):
@@ -10,7 +11,7 @@ class RecipeModelTest(RecipeTestBase):
 
     def make_recipe_no_defaults(self):
         recipe = Recipe(
-            category=self.make_category(name='Default Category'),
+            category=self.make_category(name='Test Default Category'),
             author=self.make_author(username='newuser'),
             title='Recipe Title',
             description='Recipe Description',
@@ -25,15 +26,13 @@ class RecipeModelTest(RecipeTestBase):
         recipe.save()
         return recipe
 
-    @parameterized.expand(
-        [
-            ('title', 65),
-            ('description', 165),
-            ('preparation_time_unit', 65),
-            ('servings_unit', 65),
-        ]
-    )
-    def test_recipe_fiels_max_length(self, field, max_length):
+    @parameterized.expand([
+        ('title', 65),
+        ('description', 165),
+        ('preparation_time_unit', 65),
+        ('servings_unit', 65),
+    ])
+    def test_recipe_fields_max_length(self, field, max_length):
         setattr(self.recipe, field, 'A' * (max_length + 1))
         with self.assertRaises(ValidationError):
             self.recipe.full_clean()
@@ -53,7 +52,12 @@ class RecipeModelTest(RecipeTestBase):
         )
 
     def test_recipe_string_representation(self):
-        self.recipe.title = 'Title Recipe'
+        needed = 'Testing Representation'
+        self.recipe.title = needed
         self.recipe.full_clean()
         self.recipe.save()
-        self.assertEqual(str(self.recipe), 'Title Recipe')
+        self.assertEqual(
+            str(self.recipe), needed,
+            msg=f'Recipe string representation must be '
+                f'"{needed}" but "{str(self.recipe)}" was received.'
+        )
