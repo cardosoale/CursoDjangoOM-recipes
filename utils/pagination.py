@@ -11,7 +11,7 @@ def make_pagination_range(
     stop_range = current_page + middle_range
     total_pages = len(page_range)
 
-    start_range_offset = abs(start_range)
+    start_range_offset = abs(start_range) if start_range < 0 else 0
 
     if start_range < 0:
         start_range = 0
