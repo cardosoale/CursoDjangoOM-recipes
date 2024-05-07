@@ -1,7 +1,8 @@
 from unittest import TestCase
+from unittest.mock import Mock
 
 
-from utils.pagination import make_pagination_range
+from utils.pagination import make_pagination_range, make_pagination
 
 
 class PaginationTest(TestCase):
@@ -103,3 +104,15 @@ class PaginationTest(TestCase):
             current_page=30,
         )['pagination']
         self.assertEqual([17, 18, 19, 20], pagination)
+
+    def test_non_integer_page_number(self):
+        request = Mock()
+        request.GET.get.return_value = 'not a number'
+        queryset = []  # replace with actual queryset
+        per_page = 10
+        qty_pages = 4
+
+        page_obj, pagination_range = make_pagination(
+            request, queryset, per_page, qty_pages)
+
+        self.assertEqual(page_obj.number, 1)  # default page number should be 1
