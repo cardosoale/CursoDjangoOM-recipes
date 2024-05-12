@@ -50,6 +50,7 @@
 
 html {
   font-size: 62.5%;
+  /* height: 100%; */
 }
 
 body {
@@ -57,7 +58,13 @@ body {
   font-family: var(--font-primary);
   background: var(--color-gray-1);
   color: var(--color-dark-text);
+  min-height: 100vh;
 }
+
+.main-content-container {
+  min-height: 100vh;
+}
+
 
 h1,
 h2,
@@ -310,6 +317,47 @@ h6 {
   background: var(--color-primary-dark);
 }
 
+
+/* Forms */
+.form-content {
+  max-width: 64rem;
+  margin: 0 auto;
+  margin-bottom: var(--spacing-gutter-medium);
+}
+
+.form-content label,
+.form-content .help-text,
+.error-list {
+  display: block;
+  margin: 0.5rem 0;
+  font-size: 1.4rem;
+  list-style-type: None;
+}
+
+.error-list {
+  color: var(--color-error-dark);
+}
+
+.form-content input {
+  width: 100%;
+  border-radius: 0.4rem;
+  padding: 1rem;
+  border: 1px solid var(--color-primary-dark);
+}
+
+.form-content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  gap: calc(var(--spacing-gutter-medium) / 2) var(--spacing-gutter-medium);
+}
+
+.form-content button {
+  padding: 1rem 2rem;
+  border: none;
+  background-color: var(--color-primary-dark);
+  color: var(--color-white);
+}
+
 /* Messages */
 .messages-container {
   display: flex;
@@ -376,7 +424,9 @@ h6 {
 }
 
 @media (max-width: 600px) {
-  .main-content-list {
+
+  .main-content-list,
+  .form-content-grid {
     grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
   }
 }
