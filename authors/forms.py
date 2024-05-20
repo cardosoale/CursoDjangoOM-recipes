@@ -37,14 +37,6 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['password'], 'Type your password')
         add_placeholder(self.fields['password2'], 'Repeat your password')
 
-    username = forms.CharField(
-        help_text=(
-            'Mandatory. 150 characters or less. '
-            'Letters, numbers and @/./+/-/_ only.'
-        ),
-        label='Username'
-    )
-
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(),
@@ -75,6 +67,7 @@ class RegisterForm(forms.ModelForm):
             'password',
         ]
         labels = {
+            'username': 'Username',
             'first_name': 'First name',
             'last_name': 'Last name',
             'email': 'E-mail',
