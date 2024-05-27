@@ -44,6 +44,7 @@ class RegisterForm(forms.ModelForm):
             'The length should be between 4 and 150 characters.'
         ),
         error_messages={
+            'unique': 'A user with that username already exists',
             'required': 'This field must not be empty',
             'min_length': 'Username must have at least 4 characters',
             'max_length': 'Username must have less than 150 characters',
@@ -93,6 +94,17 @@ class RegisterForm(forms.ModelForm):
             'email',
             'password',
         ]
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '')
+        exists = User.objects.filter(email=email).exists()
+
+        if exists:
+            raise ValidationError(
+                'Use email already in use', code='invalid'
+            )
+
+        return email
 
     def clean(self):
         cleaned_data = super().clean()
