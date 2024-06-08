@@ -3,7 +3,7 @@ import time
 from utils.browser import make_edge_browser
 
 
-class AuthorBaseTest(StaticLiveServerTestCase):
+class AuthorsBaseTest(StaticLiveServerTestCase):
     def setUp(self) -> None:
         self.browser = make_edge_browser()
         return super().setUp()
