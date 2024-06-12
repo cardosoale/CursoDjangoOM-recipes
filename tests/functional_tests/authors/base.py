@@ -1,5 +1,5 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-import time
+# import time
 from utils.browser import make_edge_browser
 from selenium.webdriver.common.by import By
 
@@ -13,8 +13,8 @@ class AuthorsBaseTest(StaticLiveServerTestCase):
         self.browser.quit()
         return super().tearDown()
 
-    def sleep(self, qtd=10):
-        time.sleep(10)
+    # def sleep(self, qtd=10):
+    #     time.sleep(10)
 
     def get_by_placeholder(self, form, placeholder):
         return form.find_element(

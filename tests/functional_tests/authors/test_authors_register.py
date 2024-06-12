@@ -74,7 +74,6 @@ class AuthorsRegisterTest(AuthorsBaseTest):
             email_field.send_keys('email@invalid')
             email_field.send_keys(Keys.ENTER)
             form = self.get_form()
-            self.sleep()
             self.assertIn('The e-mail must be valid.', form.text)
         self.form_field_test_with_callback(callback)
 

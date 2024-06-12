@@ -1,4 +1,4 @@
 [run]
 
 branch = True
-omit = venv/*, **/*test*.py, manage.py, recipes/migrations/**, utils/recipes/factory.py	
+omit = venv/*, **/*test*.py, manage.py, recipes/migrations/**, utils/recipes/factory.py, utils/browser.py	
