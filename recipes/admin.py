@@ -14,6 +14,7 @@ class RecipeAdmin(admin.ModelAdmin):
     search_fields = 'id', 'title', 'description', 'slug', 'preparation_steps',
     list_filter = 'is_published', 'category', 'author', \
         'preparation_steps_is_html',
+    list_per_page = 10
     list_editable = 'is_published',
     ordering = '-id',
     prepopulated_fields = {

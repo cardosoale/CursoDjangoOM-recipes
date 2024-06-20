@@ -1,3 +1,6 @@
+from django.core.exceptions import ValidationError
+from utils.positive_number import is_positive_number
+from collections import defaultdict
 from django import forms
 from recipes.models import Recipe
 from utils.django_forms import add_attr
@@ -6,6 +9,8 @@ from utils.django_forms import add_attr
 class AuthorRecipeForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self._my_errors = defaultdict(list)
 
         add_attr(self.fields.get('preparation_steps'), 'class', 'span-2')
 
@@ -34,3 +39,45 @@ class AuthorRecipeForm(forms.ModelForm):
                 )
             )
         }
+
+    def clean(self, *args, **kwargs):
+        super_clean = super().clean(*args, **kwargs)
+        cleanead_data = self.cleaned_data
+
+        title = cleanead_data.get('title')
+        description = cleanead_data.get('description')
+        preparation_steps = cleanead_data.get('preparation_steps')
+
+        if len(title) < 5:
+            self._my_errors['title'].append('Must have at least 5 chars.')
+
+        if title == description:
+            self._my_errors['title'].append('Cannot be equal to description')
+            self._my_errors['description'].append('Cannot be equal to title')
+
+        if len(preparation_steps) < 30:
+            self._my_errors['preparation_steps'].append(
+                'Must have at least 30 chars.')
+
+        if self._my_errors:
+            raise ValidationError(self._my_errors)
+
+        return super_clean
+
+    def clean_preparation_time(self):
+        field_name = 'preparation_time'
+        field_value = self.cleaned_data.get(field_name)
+
+        if not is_positive_number(field_value):
+            self._my_errors[field_name].append('Must be a positive number')
+
+        return field_value
+
+    def clean_servings(self):
+        field_name = 'servings'
+        field_value = self.cleaned_data.get(field_name)
+
+        if not is_positive_number(field_value):
+            self._my_errors[field_name].append('Must be a positive number')
+
+        return field_value
