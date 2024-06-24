@@ -5,9 +5,24 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
 from recipes.models import Recipe
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 
+@method_decorator(
+    login_required(login_url='authors:login', redirect_field_name='next'),
+    name='dispatch'
+)
 class DashboardRecipe(View):
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+
+    # def __setup__(self, *args, **kwargs):
+    #     return super().__setup__(*args, **kwargs)
+
+    # def __dispatch__(self, *args, **kwargs):
+    #     return super().__dispatch__(*args, **kwargs)
+
     def get_recipe(self, id=None):
         recipe = None
 
