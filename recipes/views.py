@@ -1,3 +1,4 @@
+from django.views.generic import ListView
 from django.db.models import Q
 from django.http.response import Http404
 from django.shortcuts import get_list_or_404, get_object_or_404, render
@@ -72,3 +73,34 @@ def search(request):
         'pagination_range': pagination_range,
         'additional_url_query': f'&q={search_term}',
     })
+
+
+class RecipeListViewBase(ListView):
+    model = Recipe
+    context_object_name = 'recipes'
+    ordering = ['-id']
+    template_name = 'recipes/pages/home.html'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        qs = qs.filter(is_published=True)
+
+        return qs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        page_obj, pagination_range = make_pagination(
+            self.request,
+            context.get('recipes'),
+            PER_PAGE
+        )
+
+        context.update(
+            {'recipes': page_obj, 'pagination_range': pagination_range}
+        )
+
+        return context
+
+
+class RecipeListViewBaseHome(RecipeListViewBase):
+    template_name = 'recipes/pages/home.html'
