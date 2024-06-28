@@ -1,4 +1,4 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.db.models import Q
 from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import get_list_or_404, get_object_or_404, render
@@ -162,4 +162,20 @@ class RecipeListViewSearch(RecipeListViewBase):
             'additional_url_query': f'&q={search_term}',
         })
 
+        return context
+
+
+class DetailPageView(DetailView):
+    model = Recipe
+    context_object_name = 'recipe'
+    template_name = 'recipes/pages/recipe-view.html'
+
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        qs = qs.filter(is_published=True)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({'is_detail_page': True})
         return context
