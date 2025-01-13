@@ -50,5 +50,7 @@
         "django-html": "html", // batisteo.vscode-django
         "javascript": "javascriptreact",
         "typescript": "typescriptreact"
-    }
+    },
+    "python.analysis.typeCheckingMode": "off",
+    "python.analysis.autoImportCompletions": true
 }
